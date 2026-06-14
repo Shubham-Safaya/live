@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shubham Safaya — Live: everything I'm building</title>
+<meta name="description" content="A live directory of everything Shubham Safaya is building in public: auto-updating dashboards, daily automation, open-source tools, a weekly essay book, and content. Updated every day.">
+<meta property="og:title" content="Shubham Safaya — Live">
+<meta property="og:description" content="Everything I'm building, live and auto-updating: dashboards, automation, open source, writing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shubham-safaya.github.io/live/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='5' fill='%23c9a96e'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23c9a96e' stroke-width='1.2' opacity='.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070708;--card:#101014;--bdr:#1c1c22;--bdr2:#26262e;--gold:#c9a96e;--gold-hi:#e8cfa0;
+  --ink:#e9e5dc;--txt:#b9b4a9;--mut:#807c73;--dim:#55524c;--live:#4ade80;
+  --serif:'Fraunces',Georgia,serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+::selection{background:var(--gold);color:#000}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 20px 100px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--live);box-shadow:0 0 10px var(--live);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(34px,6vw,60px);color:var(--ink);line-height:1.05;letter-spacing:-.02em;margin:16px 0 10px}
+h1 em{font-style:italic;color:var(--gold-hi)}
+.sub{font-size:16px;color:var(--mut);max-width:60ch;line-height:1.8}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--txt);border:1px solid var(--bdr2);border-radius:100px;padding:8px 15px;transition:all .3s}
+.chip:hover{color:var(--gold);border-color:#c9a96e55}
+.sec{margin-top:52px}
+.sec-h{font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sec-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--bdr2),transparent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{display:block;background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:all .4s cubic-bezier(.22,.8,.24,1)}
+.card.link{cursor:pointer}
+.card.link::after{content:"↗";position:absolute;top:16px;right:18px;color:var(--dim);font-size:14px;transition:all .35s}
+.card.link:hover{border-color:#c9a96e44;transform:translateY(-4px);box-shadow:0 24px 50px -28px rgba(201,169,110,.25)}
+.card.link:hover::after{color:var(--gold);transform:translate(3px,-3px)}
+.card .top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.card .ic{font-size:19px}
+.card h3{font-family:var(--serif);font-weight:500;font-size:18px;color:var(--ink);line-height:1.25;padding-right:16px}
+.card p{font-size:13px;color:var(--mut);line-height:1.65;margin-bottom:12px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.b{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;padding:4px 9px;border:1px solid}
+.b.live{color:var(--live);border-color:#4ade8044}
+.b.live .d{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--live);margin-right:5px;vertical-align:middle;animation:pulse 2s infinite}
+.b.auto{color:var(--gold);border-color:#c9a96e44}
+.b.oss{color:#60a5fa;border-color:#60a5fa44}
+.b.priv{color:var(--dim);border-color:var(--bdr2)}
+.b.tag{color:var(--mut);border-color:var(--bdr2)}
+.upd{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:10px;letter-spacing:.05em}
+footer{margin-top:60px;border-top:1px solid var(--bdr);padding-top:24px;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;line-height:2}
+footer a{color:var(--mut)}footer a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="kicker"><span class="dot"></span> Live · auto-updating</span>
+  <h1>Everything I'm <em>building</em>, live.</h1>
+  <p class="sub">A running directory of what I ship in public: dashboards that refresh every day, automation that runs on a schedule, open-source tools, and a weekly essay book. Last-updated stamps below are pulled live from GitHub, so this page is always current. I'm a Senior PM working on customer identity, ads personalization, and privacy.</p>
+  <div class="bar">
+    <a class="chip" href="https://github.com/Shubham-Safaya" target="_blank" rel="noopener">GitHub</a>
+    <a class="chip" href="https://www.linkedin.com/in/shubham-safaya/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="chip" href="https://medium.com/@safayashubham" target="_blank" rel="noopener">Medium</a>
+    <a class="chip" href="https://www.youtube.com/@sundayswithsafaya" target="_blank" rel="noopener">YouTube</a>
+    <a class="chip" href="https://shubham-safaya.github.io/" target="_blank" rel="noopener">Portfolio ↗</a>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h">Live dashboards</div>
+    <div class="grid" id="dash"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-h">Daily &amp; weekly automation</div>
+    <div class="grid" id="auto"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-h">Open source</div>
+    <div class="grid" id="oss"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-h">Writing &amp; content</div>
+    <div class="grid" id="write"></div>
+  </div>
+
+  <footer>
+    LIVE HUB · BUILT BY HAND · LAST-UPDATED STAMPS PULLED FROM THE GITHUB API IN YOUR BROWSER<br>
+    © <span id="yr"></span> SHUBHAM SAFAYA · <a href="https://shubham-safaya.github.io/">PORTFOLIO</a> · <a href="https://github.com/Shubham-Safaya/live">SOURCE</a>
+  </footer>
+</div>
+
+<script>
+const GH="Shubham-Safaya";
+/* repo: the GitHub repo to read last-push from (or null). link: where the card goes. */
+const ITEMS={
+ dash:[
+  {ic:"📊",t:"US Consumer Pulse",d:"The American shopper, daily: inflation, real wages, jobs, retail employment, state incomes. Free public-domain government data, zero backend.",link:"https://shubham-safaya.github.io/us-consumer-pulse/",repo:"us-consumer-pulse",badge:"live"},
+  {ic:"🧭",t:"Mission Control",d:"A next-step advisor: a roadmap across every goal plus a Claude coach that runs on your own API key, fully client-side.",link:"https://shubham-safaya.github.io/mission-control/",repo:"mission-control",badge:"live"},
+  {ic:"🎯",t:"Job Search Dashboard",d:"Analytics on the automated job pipeline: company tiers, source mix, a US heatmap of where the roles are.",link:"https://shubham-safaya.github.io/job-search-dashboard/",repo:"job-search-dashboard",badge:"live"},
+ ],
+ auto:[
+  {ic:"📈",t:"Pre-Market Stock Brief",d:"Portfolio-aware screener emailed before the bell: futures, market-emotion gauge, pre-market gaps, high-risk/high-reward ideas, congressional trades.",link:null,repo:null,badge:"priv",tag:"Daily 5:45a CT"},
+  {ic:"💼",t:"Evening Career Brief",d:"Curated shortlist of new-today roles after market close, with why-you-fit and where to apply tonight. Dream companies boosted.",link:null,repo:null,badge:"priv",tag:"Weekdays, post-close"},
+  {ic:"✍️",t:"The Identity Layer — weekly essay",d:"A book assembling itself in public: one Medium-ready chapter published every Monday, no em dashes, auto-compiled into a manuscript.",link:"https://github.com/Shubham-Safaya/daily-engineering-log/blob/main/book/BOOK.md",repo:"daily-engineering-log",badge:"auto",tag:"Mondays"},
+  {ic:"🎬",t:"YouTube → Shorts Studio",d:"Share a video link, get a Shorts/Reels plan: best moments, hooks, captions, hashtags + optional 9:16 clips. Runs in GitHub Actions.",link:"https://github.com/Shubham-Safaya/yt-shorts-studio",repo:"yt-shorts-studio",badge:"auto",tag:"On demand"},
+ ],
+ oss:[
+  {ic:"🔗",t:"Identity Resolution Engine",d:"Deterministic + probabilistic PII matching, identity graphs, CCPA/GDPR constraints. 108 tests, CI on Python 3.10–3.12.",link:"https://github.com/Shubham-Safaya/identity-resolution-engine",repo:"identity-resolution-engine",badge:"oss"},
+  {ic:"✅",t:"Data Quality Monitor",d:"Zero-dependency Python data validation. Define checks in pure Python, get pass/fail reports. 52 tests.",link:"https://github.com/Shubham-Safaya/data-quality-monitor",repo:"data-quality-monitor",badge:"oss"},
+  {ic:"🧰",t:"Productivity Toolkit",d:"7 Claude-API CLI tools: LinkedIn batches, outreach, mock interviews, EB1A tracker, Medium drafts.",link:"https://github.com/Shubham-Safaya/productivity-toolkit",repo:"productivity-toolkit",badge:"oss"},
+  {ic:"⏰",t:"Accessible Alarm Clock",d:"Multi-sensory alarm PWA for visual/hearing impairments. Speech, haptics, screen-flash. WCAG 2.1 AA.",link:"https://github.com/Shubham-Safaya/accessibility-alarm",repo:"accessibility-alarm",badge:"oss"},
+  {ic:"🧩",t:"Competitive Programming",d:"Solutions organized by topic: graphs, string matching, DP, with data-engineering applications.",link:"https://github.com/Shubham-Safaya/competitive-programming",repo:"competitive-programming",badge:"oss"},
+ ],
+ write:[
+  {ic:"📖",t:"The Identity Layer (Medium)",d:"Long-form essays on how customer identity, advertising, and privacy actually fit together. New chapter weekly.",link:"https://medium.com/@safayashubham",repo:null,badge:"auto",tag:"Medium"},
+  {ic:"📺",t:"Sundays with Safaya",d:"35+ episodes helping people crack interviews and build careers in tech. Shorts cut from these via the Studio above.",link:"https://www.youtube.com/@sundayswithsafaya",repo:null,badge:"tag",tag:"YouTube"},
+  {ic:"👤",t:"Portfolio",d:"The full story: impact, case studies, certifications, and what I'm building in identity, ads, and privacy.",link:"https://shubham-safaya.github.io/",repo:"shubham-safaya.github.io",badge:"tag",tag:"About me"},
+ ],
+};
+
+function rel(iso){
+  const d=(Date.now()-new Date(iso))/86400000;
+  if(d<1)return "updated today";
+  if(d<2)return "updated yesterday";
+  if(d<31)return `updated ${Math.round(d)}d ago`;
+  return `updated ${Math.round(d/30)}mo ago`;
+}
+function badgeHTML(b,tag){
+  const m={live:'<span class="b live"><span class="d"></span>Live</span>',
+           auto:'<span class="b auto">Auto</span>',
+           oss:'<span class="b oss">Open source</span>',
+           priv:'<span class="b priv">Private</span>',
+           tag:''};
+  return (m[b]||'')+(tag?`<span class="b tag">${tag}</span>`:'');
+}
+function render(){
+  for(const [sec,items] of Object.entries(ITEMS)){
+    document.getElementById(sec).innerHTML=items.map((it,i)=>{
+      const tag=it.link?'a':'div', href=it.link?`href="${it.link}" target="_blank" rel="noopener"`:'';
+      return `<${tag} class="card ${it.link?'link':''}" ${href}>
+        <div class="top"><span class="ic">${it.ic}</span><h3>${it.t}</h3></div>
+        <p>${it.d}</p>
+        <div class="badges">${badgeHTML(it.badge,it.tag)}</div>
+        ${it.repo?`<div class="upd" data-repo="${it.repo}">—</div>`:''}
+      </${tag}>`;
+    }).join('');
+  }
+}
+render();
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* live last-updated from the GitHub API (unauthenticated; cached client-side) */
+fetch(`https://api.github.com/users/${GH}/repos?per_page=100&sort=pushed`)
+  .then(r=>r.ok?r.json():[])
+  .then(repos=>{
+    const by={};repos.forEach(r=>by[r.name]=r.pushed_at);
+    document.querySelectorAll('.upd[data-repo]').forEach(el=>{
+      const ts=by[el.dataset.repo];
+      el.textContent=ts?rel(ts):'';
+    });
+  }).catch(()=>{});
+</script>
+</body>
+</html>
