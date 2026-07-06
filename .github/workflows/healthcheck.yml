@@ -1,7 +1,7 @@
 name: Nightly healthcheck
 
 # Central QA DAG: every night, verify every public property is up and the
-# Hisaab database answers. On any failure it opens (or updates) a single
+# EvenOut database answers. On any failure it opens (or updates) a single
 # GitHub issue labeled `healthcheck` — no noise, no duplicate issues.
 
 on:
@@ -39,15 +39,15 @@ jobs:
           check https://shubham-safaya.github.io/kongposh/verify.html
           check https://shubham-safaya.github.io/threadpass/
           check https://shubham-safaya.github.io/sundays-with-safaya/
-          check https://shubham-safaya.github.io/hisaab/
+          check https://shubham-safaya.github.io/evenout/
 
-          # Hisaab database (Supabase RPC round-trip, public anon key)
+          # EvenOut database (Supabase RPC round-trip, public anon key)
           KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyZWtlZGJsZHRlZHBydG91dm1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzNTQ5MzcsImV4cCI6MjA5ODkzMDkzN30.CLHoZxp3Gp-_I-hkVRL0LIpJnfo_IFXNPJXE1awflDg"
           RESP=$(curl -s --max-time 30 "https://arekedbldtedprtouvme.supabase.co/rest/v1/rpc/get_group_data" \
             -H "apikey: $KEY" -H "Authorization: Bearer $KEY" -H "Content-Type: application/json" \
             -d '{"p_group":"ebb8da90-3d78-45f6-9260-f0f49905f217"}')
           echo "$RESP" | grep -q '"group"' && echo "ok   hisaab supabase" \
-            || { FAILED="$FAILED\n- Hisaab Supabase RPC unhealthy"; echo "FAIL hisaab supabase"; }
+            || { FAILED="$FAILED\n- EvenOut Supabase RPC unhealthy"; echo "FAIL hisaab supabase"; }
 
           if [ -n "$FAILED" ]; then
             printf "failed<<EOF\n%b\nEOF\n" "$FAILED" >> "$GITHUB_OUTPUT"
