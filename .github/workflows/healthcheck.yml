@@ -1,0 +1,83 @@
+name: Nightly healthcheck
+
+# Central QA DAG: every night, verify every public property is up and the
+# Hisaab database answers. On any failure it opens (or updates) a single
+# GitHub issue labeled `healthcheck` — no noise, no duplicate issues.
+
+on:
+  schedule:
+    - cron: "45 11 * * *" # 11:45 UTC daily — after the morning briefs
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check all live URLs
+        id: urls
+        run: |
+          FAILED=""
+          check() {
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$1")
+            if [ "$CODE" != "200" ]; then
+              FAILED="$FAILED\n- $1 → HTTP $CODE"
+              echo "FAIL $1 ($CODE)"
+            else
+              echo "ok   $1"
+            fi
+          }
+          check https://shubham-safaya.github.io/
+          check https://shubham-safaya.github.io/live/
+          check https://shubham-safaya.github.io/us-consumer-pulse/
+          check https://shubham-safaya.github.io/mission-control/
+          check https://shubham-safaya.github.io/job-search-dashboard/
+          check https://shubham-safaya.github.io/kongposh/
+          check https://shubham-safaya.github.io/kongposh/verify.html
+          check https://shubham-safaya.github.io/threadpass/
+          check https://shubham-safaya.github.io/sundays-with-safaya/
+          check https://shubham-safaya.github.io/hisaab/
+
+          # Hisaab database (Supabase RPC round-trip, public anon key)
+          KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyZWtlZGJsZHRlZHBydG91dm1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzNTQ5MzcsImV4cCI6MjA5ODkzMDkzN30.CLHoZxp3Gp-_I-hkVRL0LIpJnfo_IFXNPJXE1awflDg"
+          RESP=$(curl -s --max-time 30 "https://arekedbldtedprtouvme.supabase.co/rest/v1/rpc/get_group_data" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" -H "Content-Type: application/json" \
+            -d '{"p_group":"ebb8da90-3d78-45f6-9260-f0f49905f217"}')
+          echo "$RESP" | grep -q '"group"' && echo "ok   hisaab supabase" \
+            || { FAILED="$FAILED\n- Hisaab Supabase RPC unhealthy"; echo "FAIL hisaab supabase"; }
+
+          if [ -n "$FAILED" ]; then
+            printf "failed<<EOF\n%b\nEOF\n" "$FAILED" >> "$GITHUB_OUTPUT"
+            echo "any_failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "any_failed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update healthcheck issue
+        if: steps.urls.outputs.any_failed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BODY="Nightly healthcheck failures ($(date -u +%F)):${{ steps.urls.outputs.failed }}
+
+          Re-run: Actions → Nightly healthcheck → Run workflow."
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --label healthcheck --state open --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "$BODY"
+          else
+            gh label create healthcheck --repo "$GITHUB_REPOSITORY" --color D93F0B 2>/dev/null || true
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "Healthcheck failures" \
+              --label healthcheck --body "$BODY"
+          fi
+
+      - name: Close healthcheck issue when green
+        if: steps.urls.outputs.any_failed == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --label healthcheck --state open --json number --jq '.[0].number')
+          [ -n "$EXISTING" ] && gh issue close "$EXISTING" --repo "$GITHUB_REPOSITORY" \
+            --comment "All checks green again $(date -u +%F). Auto-closed." || echo "All green."
