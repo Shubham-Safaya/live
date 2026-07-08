@@ -40,6 +40,11 @@ jobs:
           check https://shubham-safaya.github.io/threadpass/
           check https://shubham-safaya.github.io/sundays-with-safaya/
           check https://shubham-safaya.github.io/evenout/
+          check https://shubham-safaya.github.io/checkpoint/
+          check https://shubham-safaya.github.io/bharat-consumer-pulse/
+          check https://shubham-safaya.github.io/kesarkong/shop.html
+          check https://shubham-safaya.github.io/yt-shorts-studio/
+          check https://shubham-safaya.github.io/press-kit/
 
           # EvenOut database (Supabase RPC round-trip, public anon key)
           KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyZWtlZGJsZHRlZHBydG91dm1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzNTQ5MzcsImV4cCI6MjA5ODkzMDkzN30.CLHoZxp3Gp-_I-hkVRL0LIpJnfo_IFXNPJXE1awflDg"
