@@ -18,3 +18,22 @@ A single public directory of everything I'm building: auto-updating dashboards, 
 Private repos (the stock screener and job pipeline, which hold personal data) are shown with a *Private* badge and no link, so the hub stays safe to share publicly.
 
 Built by [Shubham Safaya](https://shubham-safaya.github.io).
+
+## Release radar
+
+A weekly workflow (`.github/workflows/release-radar.yml`) scans every repo's GitHub Actions,
+`requirements.txt`, `pyproject.toml` and `package.json`, then keeps one `release-radar` issue up
+to date. It flags security fixes, breaking changes, Node runtime moves, yanked or deprecated
+releases, new majors your pins can't reach, and `>=` floors that will jump a major on the next
+run. Routine patch and minor releases are ignored. A comment is added only when something new
+appears, and the issue closes itself when the list is empty.
+
+```bash
+python scripts/release_radar.py --sample            # offline demo with fixture data
+python scripts/release_radar.py --local ~/code      # scan local clones, print only
+python -m unittest discover -s tests                # offline tests
+```
+
+Private repos are included only when a `RADAR_TOKEN` secret holds a fine-grained token with
+read-only Contents access to all repos. Without it, the radar covers public repos.
+

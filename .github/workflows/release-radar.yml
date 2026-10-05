@@ -1,0 +1,44 @@
+name: Weekly release radar
+
+# Every Monday, scan all of Shubham-Safaya's repos for GitHub Actions and
+# package releases that need a decision (security fixes, breaking changes,
+# runtime moves, new majors, deprecations). Keeps ONE open issue labeled
+# `release-radar`: the body is the current brief, a comment is added only
+# when something new appears, and it auto-closes when the list is empty.
+
+on:
+  schedule:
+    - cron: "41 12 * * 1" # Mondays 12:41 UTC, after the nightly healthcheck
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Release-note window in days"
+        default: "8"
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Self-test (offline)
+        run: python -m unittest discover -s tests
+
+      - name: Scan and update the radar issue
+        env:
+          # Optional fine-grained PAT with read-only Contents on all repos, so the
+          # two private repos are included. Without it, public repos only.
+          READ_TOKEN: ${{ secrets.RADAR_TOKEN || github.token }}
+          ISSUE_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/release_radar.py --owner Shubham-Safaya \
+            --days "${{ github.event.inputs.days || '8' }}" --issue
